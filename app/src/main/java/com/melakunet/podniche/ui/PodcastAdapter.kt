@@ -48,11 +48,25 @@ class PodcastAdapter(private var podcasts: List<Podcast> = emptyList()) :
             titleTextView.text = podcast.collectionName ?: ""
             artistTextView.text = podcast.artistName ?: ""
             
-            // Format the details line with genre and episode count
+            // Format the details line: show genre and count if available, otherwise just genre
             val context = itemView.context
-            val genre = podcast.primaryGenreName ?: ""
-            val episodeCount = podcast.trackCount ?: 0
-            detailsTextView.text = context.getString(R.string.podcast_details, genre, episodeCount)
+            val genre = podcast.primaryGenreName
+            val episodeCount = podcast.trackCount
+            
+            detailsTextView.text = when {
+                genre != null && episodeCount != null -> {
+                    // Full detail line for search results
+                    context.getString(R.string.podcast_details, genre, episodeCount)
+                }
+                genre != null -> {
+                    // Just genre for chart results where count is null
+                    genre
+                }
+                else -> {
+                    // Empty if no genre info
+                    ""
+                }
+            }
 
             // Load the artwork image from URL
             Glide.with(context)
