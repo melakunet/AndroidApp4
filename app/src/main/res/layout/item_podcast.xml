@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Row layout for a single podcast entry in the RecyclerView -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/podcast_rank"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:visibility="gone"
+        tools:text="#1"
+        tools:visibility="visible"
+        xmlns:tools="http://schemas.android.com/tools" />
 
     <ImageView
         android:id="@+id/podcast_artwork"

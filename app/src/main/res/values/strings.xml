@@ -5,4 +5,11 @@
     <string name="search_button">Search</string>
     <string name="error_message">Something went wrong. Please try again.</string>
     <string name="podcast_artwork_desc">Podcast artwork</string>
+    <string name="podcast_rank">#%1$d</string>
+    <string name="cat_motivation">Motivation</string>
+    <string name="cat_books">Books</string>
+    <string name="cat_politics">Politics</string>
+    <string name="cat_news">News</string>
+    <string name="cat_stocks">Stocks</string>
+    <string name="cat_crypto">Crypto</string>
 </resources>
