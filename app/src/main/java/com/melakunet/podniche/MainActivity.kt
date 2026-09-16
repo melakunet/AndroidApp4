@@ -1,6 +1,7 @@
 package com.melakunet.podniche
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
@@ -18,6 +19,7 @@ import com.melakunet.podniche.data.ITunesApi
 import com.melakunet.podniche.data.NicheCategory
 import com.melakunet.podniche.data.getNicheCategories
 import com.melakunet.podniche.ui.PodcastAdapter
+import com.melakunet.podniche.ui.PodcastDetailActivity
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -74,7 +76,16 @@ class MainActivity : AppCompatActivity() {
     private fun setupUI() {
         // Find views and set adapter
         val recyclerView = findViewById<RecyclerView>(R.id.podcast_recycler_view)
-        adapter = PodcastAdapter()
+        adapter = PodcastAdapter { podcast ->
+            val intent = Intent(this, PodcastDetailActivity::class.java).apply {
+                putExtra("collectionName", podcast.collectionName)
+                putExtra("artistName", podcast.artistName)
+                putExtra("artworkUrl100", podcast.artworkUrl100)
+                putExtra("feedUrl", podcast.feedUrl)
+                putExtra("trackId", podcast.trackId ?: -1L)
+            }
+            startActivity(intent)
+        }
         recyclerView.adapter = adapter
 
         val searchEditText = findViewById<EditText>(R.id.search_edit_text)

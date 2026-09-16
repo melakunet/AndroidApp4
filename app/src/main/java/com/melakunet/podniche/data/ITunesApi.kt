@@ -34,4 +34,16 @@ interface ITunesApi {
     suspend fun getTopPodcasts(
         @Url url: String
     ): TopPodcastsResponse
+
+    /**
+     * Looks up a podcast by its trackId.
+     * Hits the "lookup" endpoint.
+     *
+     * @param id The unique iTunes ID for the podcast.
+     * @return A [PodcastResponse] object.
+     */
+    @GET("lookup")
+    suspend fun lookupPodcast(
+        @Query("id") id: Long
+    ): PodcastResponse
 }

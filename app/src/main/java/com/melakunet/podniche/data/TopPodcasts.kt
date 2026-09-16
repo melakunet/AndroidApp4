@@ -26,7 +26,8 @@ data class ChartEntry(
     @SerializedName("im:name") val name: LabelWrapper?,
     @SerializedName("im:artist") val artist: LabelWrapper?,
     @SerializedName("im:image") val images: List<ImageWrapper>?,
-    val category: CategoryWrapper?
+    val category: CategoryWrapper?,
+    val id: IdWrapper?
 ) {
     /**
      * Maps this [ChartEntry] to the existing [Podcast] data class.
@@ -35,18 +36,34 @@ data class ChartEntry(
     fun toPodcast(): Podcast {
         // We pick the last image in the array as it is usually the largest one available
         val artworkUrl = images?.lastOrNull()?.label
+        val trackId = id?.attributes?.imId?.toLongOrNull()
         return Podcast(
             collectionName = name?.label,
             artistName = artist?.label,
             artworkUrl100 = artworkUrl,
             feedUrl = null,
-            trackId = null,
+            trackId = trackId,
             trackCount = null,
             primaryGenreName = category?.attributes?.label,
             releaseDate = null
         )
     }
 }
+
+/**
+ * Wrapper for the entry ID and its attributes.
+ */
+data class IdWrapper(
+    val label: String?,
+    val attributes: IdAttributes?
+)
+
+/**
+ * Attributes for the entry ID, including the im:id.
+ */
+data class IdAttributes(
+    @SerializedName("im:id") val imId: String?
+)
 
 /**
  * Wrapper for simple text labels in the JSON.

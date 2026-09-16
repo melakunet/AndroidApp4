@@ -12,4 +12,8 @@
     <string name="cat_news">News</string>
     <string name="cat_stocks">Stocks</string>
     <string name="cat_crypto">Crypto</string>
+    <string name="audio">AUDIO</string>
+    <string name="video">VIDEO</string>
+    <string name="playing">Playing: %1$s</string>
+    <string name="episodes">Episodes</string>
 </resources>

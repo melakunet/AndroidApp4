@@ -14,8 +14,10 @@ import com.melakunet.podniche.data.Podcast
  * Adapter for displaying a list of podcasts in a RecyclerView.
  * Manages the data list and the visibility of ranks.
  */
-class PodcastAdapter(private var podcasts: List<Podcast> = emptyList()) :
-    RecyclerView.Adapter<PodcastAdapter.PodcastViewHolder>() {
+class PodcastAdapter(
+    private var podcasts: List<Podcast> = emptyList(),
+    private val onPodcastClick: (Podcast) -> Unit
+) : RecyclerView.Adapter<PodcastAdapter.PodcastViewHolder>() {
 
     // Toggle to show or hide the #Rank indicator
     private var showRanks: Boolean = false
@@ -24,8 +26,9 @@ class PodcastAdapter(private var podcasts: List<Podcast> = emptyList()) :
      * ViewHolder for holding podcast item views.
      * References the rank, artwork, title, artist, and details views.
      */
-    class PodcastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PodcastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val rankTextView: TextView = itemView.findViewById(R.id.podcast_rank)
+        private val rankContainer: View = itemView.findViewById(R.id.rank_container)
         private val artworkImageView: ImageView = itemView.findViewById(R.id.podcast_artwork)
         private val titleTextView: TextView = itemView.findViewById(R.id.podcast_title)
         private val artistTextView: TextView = itemView.findViewById(R.id.podcast_artist)
@@ -38,11 +41,13 @@ class PodcastAdapter(private var podcasts: List<Podcast> = emptyList()) :
         fun bind(podcast: Podcast, showRank: Boolean, position: Int) {
             // Show rank if we are in chart mode
             if (showRank) {
-                rankTextView.visibility = View.VISIBLE
-                rankTextView.text = itemView.context.getString(R.string.podcast_rank, position + 1)
+                rankContainer.visibility = View.VISIBLE
+                rankTextView.text = (position + 1).toString()
             } else {
-                rankTextView.visibility = View.GONE
+                rankContainer.visibility = View.GONE
             }
+
+            itemView.setOnClickListener { onPodcastClick(podcast) }
 
             // Set basic text data
             titleTextView.text = podcast.collectionName ?: ""
