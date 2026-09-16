@@ -20,6 +20,7 @@ import com.melakunet.podniche.data.NicheCategory
 import com.melakunet.podniche.data.getNicheCategories
 import com.melakunet.podniche.ui.PodcastAdapter
 import com.melakunet.podniche.ui.PodcastDetailActivity
+import com.melakunet.podniche.ui.SubscriptionsActivity
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -90,8 +91,13 @@ class MainActivity : AppCompatActivity() {
 
         val searchEditText = findViewById<EditText>(R.id.search_edit_text)
         val searchButton = findViewById<Button>(R.id.search_button)
+        val subscriptionsButton = findViewById<Button>(R.id.subscriptions_button)
         chipGroup = findViewById(R.id.category_chip_group)
         categories = getNicheCategories(this)
+
+        subscriptionsButton.setOnClickListener {
+            startActivity(Intent(this, SubscriptionsActivity::class.java))
+        }
 
         // Handle manual search button clicks
         searchButton.setOnClickListener {

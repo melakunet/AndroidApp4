@@ -16,4 +16,8 @@
     <string name="video">VIDEO</string>
     <string name="playing">Playing: %1$s</string>
     <string name="episodes">Episodes</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
+    <string name="subscriptions">Subscriptions</string>
+    <string name="no_subscriptions">No subscriptions yet</string>
 </resources>
