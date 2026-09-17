@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
  * Main Room database for the application.
  * Manages the [SubscribedPodcast] entity and provides the [SubscriptionDao].
  */
-@Database(entities = [SubscribedPodcast::class], version = 1, exportSchema = false)
+@Database(entities = [SubscribedPodcast::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     /**
@@ -30,7 +30,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "podniche_db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration(true) // Acceptable as subscriptions can be re-added
+                    .build()
                 INSTANCE = instance
                 instance
             }

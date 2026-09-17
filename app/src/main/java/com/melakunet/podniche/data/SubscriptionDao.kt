@@ -43,4 +43,16 @@ interface SubscriptionDao {
      */
     @Query("SELECT * FROM subscribed_podcasts ORDER BY subscribedAt DESC")
     fun getAll(): Flow<List<SubscribedPodcast>>
+
+    /**
+     * Returns all subscribed podcasts as a simple list (blocking/sync).
+     */
+    @Query("SELECT * FROM subscribed_podcasts")
+    fun getAllSync(): List<SubscribedPodcast>
+
+    /**
+     * Updates the last seen episode guid for a podcast.
+     */
+    @Query("UPDATE subscribed_podcasts SET lastEpisodeGuid = :guid WHERE trackId = :trackId")
+    suspend fun updateLastEpisodeGuid(trackId: Long, guid: String?)
 }

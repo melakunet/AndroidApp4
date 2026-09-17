@@ -107,6 +107,7 @@ class PodcastDetailActivity : AppCompatActivity() {
                     artistName = artist,
                     artworkUrl100 = artworkUrl,
                     feedUrl = currentFeedUrl,
+                    lastEpisodeGuid = null,
                     subscribedAt = System.currentTimeMillis()
                 )
                 dao.insert(podcast)

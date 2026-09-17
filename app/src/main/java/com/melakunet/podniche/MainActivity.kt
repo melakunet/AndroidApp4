@@ -2,6 +2,8 @@ package com.melakunet.podniche
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
@@ -9,7 +11,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.ChipGroup
 import com.melakunet.podniche.data.ITunesApi
 import com.melakunet.podniche.data.NicheCategory
+import com.melakunet.podniche.data.PodcastUpdateScheduler
 import com.melakunet.podniche.data.getNicheCategories
 import com.melakunet.podniche.ui.PodcastAdapter
 import com.melakunet.podniche.ui.PodcastDetailActivity
@@ -56,6 +61,28 @@ class MainActivity : AppCompatActivity() {
         // Initialize networking and UI
         setupRetrofit()
         setupUI()
+        requestNotificationPermission()
+        PodcastUpdateScheduler.scheduleUpdateWorker(this)
+    }
+
+    /**
+     * Requests the POST_NOTIFICATIONS permission on Android 13+.
+     */
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                val requestPermissionLauncher = registerForActivityResult(
+                    ActivityResultContracts.RequestPermission()
+                ) { isGranted: Boolean ->
+                    if (!isGranted) {
+                        Log.w("MainActivity", "Notification permission denied")
+                    }
+                }
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 
     /**

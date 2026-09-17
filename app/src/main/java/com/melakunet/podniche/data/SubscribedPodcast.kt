@@ -14,5 +14,6 @@ data class SubscribedPodcast(
     val artistName: String?,
     val artworkUrl100: String?,
     val feedUrl: String?,
+    val lastEpisodeGuid: String?, // The guid of the newest episode seen
     val subscribedAt: Long // Timestamp of when the user subscribed
 )

@@ -6,7 +6,10 @@ PodNiche is a podcast discovery app that allows users to search for podcasts via
 ### Features list
 - **Networking**: Uses Retrofit + Gson to communicate with the iTunes Search API and the Apple Top Charts RSS JSON feed.
 - **UI Components**: Implements a RecyclerView with a custom adapter for displaying results.
+- **Detail Screen**: Features a detailed view with episode lists, playback via ExoPlayer (supporting HLS), and card-based UI.
 - **Image Loading**: Uses Glide for efficient artwork loading and caching.
+- **Subscriptions**: Uses Room database for local persistence of favorite podcasts, allowing offline access to metadata.
+- **Background Updates**: Integrated WorkManager for hourly checking of new episodes with system notifications.
 - **Concurrency**: Manages asynchronous API calls using Kotlin coroutines and `lifecycleScope`.
 - **Error Handling**: Provides user feedback via Toasts and logs exceptions for debugging.
 - **Material Design**: Uses Material Chips for category selection and a horizontal scroll view.

@@ -46,6 +46,31 @@ class EpisodeAdapter(
 
     override fun getItemCount(): Int = episodes.size
 
+    /**
+     * Formats the duration string into a "X min" format.
+     * Handles raw seconds or HH:MM:SS format.
+     */
+    private fun formatDuration(rawDuration: String?): String? {
+        if (rawDuration.isNullOrBlank()) return null
+        return try {
+            if (rawDuration.contains(":")) {
+                val parts = rawDuration.split(":").map { it.toInt() }
+                val minutes = when (parts.size) {
+                    3 -> parts[0] * 60 + parts[1] // HH:MM:SS
+                    2 -> parts[0] // MM:SS
+                    else -> 0
+                }
+                if (minutes > 0) "$minutes min" else null
+            } else {
+                val totalSeconds = rawDuration.toLong()
+                val minutes = totalSeconds / 60
+                if (minutes > 0) "$minutes min" else null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     inner class EpisodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.episodeTitle)
         private val pubDate: TextView = itemView.findViewById(R.id.episodePubDate)
@@ -56,7 +81,14 @@ class EpisodeAdapter(
         fun bind(episode: Episode) {
             title.text = episode.title
             pubDate.text = episode.pubDate
-            duration.text = episode.duration
+            
+            val formattedDuration = formatDuration(episode.duration)
+            if (formattedDuration != null) {
+                duration.text = formattedDuration
+                duration.visibility = View.VISIBLE
+            } else {
+                duration.visibility = View.GONE
+            }
 
             val context = itemView.context
             if (episode.mediaType?.contains("video") == true) {
